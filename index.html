@@ -168,6 +168,24 @@
                 <label class="consent-row"><input type="checkbox" id="consent" form="messageForm" required><span>I understand this is a <strong>test only</strong>, not an emergency request, and agree to send the entered details and location to the configured test backend.</span></label>
                 <button id="sendButton" class="button button-primary button-send" type="submit" form="messageForm"><span id="sendButtonLabel">Send test message</span><svg class="icon"><use href="#ic-arrow"/></svg></button>
                 <div id="feedback" class="feedback" role="status" aria-live="polite" tabindex="-1" hidden></div>
+                <!-- Classification result: appears only after the backend confirms DB save. -->
+                <section class="linko-classification" id="classificationResult" aria-label="Saved message classification" aria-live="polite" hidden>
+                  <div class="linko-classification-header">
+                    <span class="linko-classification-check" aria-hidden="true"><svg class="icon"><use href="#ic-check"/></svg></span>
+                    <div><strong>Message saved successfully</strong><span>LINKO has received your test message.</span></div>
+                    <span class="linko-classification-state">SAVED</span>
+                  </div>
+                  <div class="linko-classification-body">
+                    <span class="linko-classification-eyebrow">MESSAGE CATEGORY</span>
+                    <div class="linko-classification-main">
+                      <span class="linko-category-icon" id="classificationCategoryIcon" aria-hidden="true"><svg class="icon"><use href="#ic-message"/></svg></span>
+                      <div class="linko-category-info"><strong id="classificationCategory">Pending review</strong><span id="classificationDescription">The backend is processing the category.</span></div>
+                      <span class="linko-category-pill" id="classificationSource">Processing</span>
+                    </div>
+                    <div class="linko-classification-reference"><span>REFERENCE ID</span><strong id="classificationReference"></strong></div>
+                  </div>
+                  <p class="linko-classification-note" id="classificationReviewNote">Classification is a test result and may require operator review. This is not an emergency dispatch confirmation.</p>
+                </section>
                 <div class="mode-note" id="modeNote"></div>
               </div>
             </div>
