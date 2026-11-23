@@ -249,3 +249,35 @@ a{color:inherit;text-decoration:none}p,h1,h2,h3{margin:0}.container{width:min(13
   .field-heading>span{font-size:9px}
   .template-chip{font-size:10px}
 }
+
+
+/* LINKO Field classification result: additive component only; existing layout unchanged. */
+.linko-classification{border:1px solid #dce8f2;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 10px 28px rgba(20,54,90,.045);margin-top:2px;min-width:0}
+.linko-classification[hidden]{display:none!important}
+.linko-classification-header{display:flex;align-items:center;gap:12px;padding:16px 17px;background:linear-gradient(110deg,#f0faf6,#f8fcfb);border-bottom:1px solid #e2f0e9}
+.linko-classification-check{width:34px;height:34px;background:#dcf6e9;color:#138257;border-radius:50%;display:grid;place-items:center;flex:none}
+.linko-classification-check .icon{width:18px;height:18px}
+.linko-classification-header>div{display:grid;gap:4px;min-width:0;flex:1}
+.linko-classification-header strong{font-size:12px;color:#185943;font-weight:700}
+.linko-classification-header>div span{font-size:10px;color:#638b7c;line-height:1.4}
+.linko-classification-state{font-size:9px;font-weight:750;letter-spacing:.08em;padding:7px 9px;border:1px solid #bee9d1;color:#17845e;background:#fff;border-radius:999px}
+.linko-classification-body{padding:18px 17px 15px}
+.linko-classification-eyebrow{display:block;color:#818b98;font-size:9px;font-weight:750;letter-spacing:.14em;margin-bottom:11px}
+.linko-classification-main{display:flex;align-items:center;gap:12px;min-width:0}
+.linko-category-icon{height:45px;width:45px;border-radius:13px;display:grid;place-items:center;background:#edf4ff;color:#176bd0;flex:none}
+.linko-category-icon .icon{width:22px;height:22px}
+.linko-category-info{min-width:0;display:grid;gap:5px;flex:1}
+.linko-category-info strong{font-size:19px;letter-spacing:-.035em;font-weight:750;color:#273544;overflow-wrap:anywhere}
+.linko-category-info>span{font-size:10px;line-height:1.5;color:#8290a0}
+.linko-category-pill{padding:7px 10px;font-size:9px;font-weight:700;color:#375d8e;background:#eff5fd;border:1px solid #dce9fa;border-radius:999px;white-space:nowrap;flex:none}
+.linko-classification-reference{display:grid;gap:5px;margin-top:17px;padding-top:13px;border-top:1px solid #edf0f3}
+.linko-classification-reference span{font-size:9px;letter-spacing:.12em;font-weight:700;color:#949aa4}
+.linko-classification-reference strong{font-size:11px;line-height:1.6;font-weight:600;color:#526273;overflow-wrap:anywhere;user-select:all}
+.linko-classification-note{font-size:10px;line-height:1.55;color:#83909c;background:#f8fafc;border-top:1px solid #eef1f4;padding:12px 17px}
+.linko-classification[data-category="SOS"] .linko-category-icon{background:#ffecee;color:#c3263a}
+.linko-classification[data-category="MEDICAL"] .linko-category-icon{background:#fff0eb;color:#be5738}
+.linko-classification[data-category="RESCUE"] .linko-category-icon{background:#fff2e2;color:#b56b1e}
+.linko-classification[data-category="WATER"] .linko-category-icon{background:#e9f5ff;color:#0071d2}
+.linko-classification[data-category="FOOD"] .linko-category-icon{background:#f0f8e9;color:#528129}
+.linko-classification[data-category="SUPPLIES"] .linko-category-icon{background:#f0efff;color:#6251b0}
+@media(max-width:580px){.linko-classification-header{padding:13px;gap:9px}.linko-classification-body{padding:15px 13px 13px}.linko-classification-note{padding:11px 13px}.linko-classification-main{gap:9px}.linko-category-icon{width:41px;height:41px}.linko-category-info strong{font-size:17px}.linko-category-pill{padding:6px 8px;font-size:8px}}
