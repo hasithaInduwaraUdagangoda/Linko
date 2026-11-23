@@ -1378,6 +1378,57 @@ const CONFIG = {
   }
 
   // ============================================================
+  // SAVED MESSAGE CLASSIFICATION RESULT
+  // ============================================================
+
+  function hideClassificationResult() {
+    const result = $("classificationResult");
+    if (result) result.hidden = true;
+  }
+
+  function showClassificationResult(body, fallbackRequestId) {
+    const result = $("classificationResult");
+    if (!result) return;
+
+    const supported = {
+      SOS: {title:"SOS / Emergency", description:"Immediate assistance request", icon:"ic-shield"},
+      RESCUE: {title:"Rescue", description:"Evacuation or rescue assistance", icon:"ic-crosshair"},
+      MEDICAL: {title:"Medical", description:"Health or medical assistance", icon:"ic-check-circle"},
+      WATER: {title:"Water", description:"Drinking water or water supply", icon:"ic-waves"},
+      FOOD: {title:"Food", description:"Food or meal assistance", icon:"ic-message"},
+      SUPPLIES: {title:"Supplies", description:"Essential supply request", icon:"ic-message"},
+      GENERAL: {title:"General", description:"General communication or system test", icon:"ic-message"},
+      UNKNOWN: {title:"Needs review", description:"Category requires operator review", icon:"ic-info"}
+    };
+
+    const value = typeof body.category === "string" ? body.category.toUpperCase() : "";
+    const known = Object.prototype.hasOwnProperty.call(supported, value);
+    const category = known ? value : "UNKNOWN";
+    const details = supported[category];
+    const missingBackendCategory = !known;
+    const source = body.classificationSource === "ai" ? "AI classified"
+      : body.classificationSource === "rules" ? "Rule classified"
+      : body.classificationSource === "operator" ? "Operator reviewed"
+      : "Category pending";
+    const needsReview = body.requiresReview === true ||
+      body.classificationStatus === "needs_review" || category === "UNKNOWN";
+
+    result.dataset.category = category;
+    $("classificationCategory").textContent = missingBackendCategory ? "Category pending" : details.title;
+    $("classificationDescription").textContent = missingBackendCategory
+      ? "Category was not included in the server response."
+      : details.description;
+    $("classificationSource").textContent = missingBackendCategory ? "Pending" : source;
+    $("classificationReference").textContent =
+      String(body.referenceId || body.messageId || fallbackRequestId);
+    $("classificationReviewNote").textContent = needsReview || missingBackendCategory
+      ? "Category is provisional and may need operator review. This is not an emergency dispatch confirmation."
+      : "Classification is a test result, not an operator acknowledgment or emergency dispatch confirmation.";
+    $("classificationCategoryIcon").querySelector("use")?.setAttribute("href", "#" + details.icon);
+    result.hidden = false;
+  }
+
+  // ============================================================
   // SEND BUTTON LOADING STATE
   // ============================================================
 
@@ -1401,6 +1452,7 @@ const CONFIG = {
 
     if (state.isSending) return;
 
+    hideClassificationResult();
     notify("");
 
     const form = $("messageForm");
@@ -1537,24 +1589,10 @@ const CONFIG = {
         );
       }
 
-      // ====================================================
-      // UPDATED SUCCESS MESSAGE
-      // Category and Priority are NOT shown to the user.
-      // The server still stores classification in Supabase.
-      // ====================================================
-
-      notify(
-        `Test message sent successfully!
-
-Reference ID: ${body.referenceId || body.messageId || requestId}
-
-Your test message has been saved successfully.
-
-Thank you for using LINKO Field.
-
-This is a test submission, not an emergency response confirmation.`,
-        "success"
-      );
+      // Show the category returned by the database-backed intake endpoint.
+      // Never guess category from message text in the browser.
+      notify("Test message sent successfully!", "success");
+      showClassificationResult(body, requestId);
 
       // Prepare a new ID only after successful submission.
       state.currentRequestId = createId();
